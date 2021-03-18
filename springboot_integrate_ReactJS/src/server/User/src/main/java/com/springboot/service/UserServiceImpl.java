@@ -1,6 +1,8 @@
 package com.springboot.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.exception.UserAlreadyExistException;
 import com.springboot.exception.UserNotFoundException;
+import com.springboot.model.Role;
 import com.springboot.model.User;
 import com.springboot.repository.RoleRepository;
 import com.springboot.repository.UserRepository;
@@ -21,9 +24,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private RoleRepository roleRepository;
-	
-	 @Autowired
-	    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public UserServiceImpl(UserRepository userRepository) {
 
@@ -79,13 +82,16 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	public User findByUsername(String email) {
-		return userRepository.findByUsername(email);
+	public void save(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		List<Role> list = new ArrayList<Role>();
+		user = (User) roleRepository.findAll();
+		user.setRoles(list);
+		userRepository.save(user);
 	}
 
-	public void save(User user) {
-		  user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-	        user.setRoles(new HashSet<>(roleRepository.findAll()));
-	        userRepository.save(user);
+	@Override
+	public User findByEmail(String email) {
+		return userRepository.findByUsername(email);
 	}
 }
