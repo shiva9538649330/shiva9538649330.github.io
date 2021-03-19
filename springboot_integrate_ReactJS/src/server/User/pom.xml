@@ -102,11 +102,6 @@
 
 
 	<modules>
-		<module>UserService</module>
-		<module>ReminderService</module>
-		<module>NoteService</module>
-		<module>CategoryService</module>
-		<module>UserAuthentication-Service</module>
-
+		<module>User</module>
 	</modules>
 </project>

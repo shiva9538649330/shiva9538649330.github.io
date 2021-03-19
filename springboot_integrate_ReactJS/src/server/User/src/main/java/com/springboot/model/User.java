@@ -1,25 +1,30 @@
 package com.springboot.model;
 
 import java.util.List;
+
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Entity
+@Table(name = "USER")
 public class User implements Comparable<User> {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
-
 	private String name;
 	private String email;
 	private String password;
 	private String PasswordConfirm;
 	private String role;
-
 	@ManyToMany
 	private List<Role> roles;
 
